@@ -9,43 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d39f7ee-fc99-45a3-8812-93fd3489919c" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/androidTest/java/io/github/josephx86/bakingtime/DownloadRecipesTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/androidTest/java/io/github/josephx86/bakingtime/InstructionsActivityTest.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/FragmentParent.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/IngredientsWidget.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/InstructionsActivity.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/InstructionsFragment.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/WidgetService.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/data/RecipesProvider.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-nodpi/example_appwidget_preview.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_navigate_next_24dp.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/rect_dark.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_instructions.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_instructions.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/ingredients_widget.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values-v14/dimens.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values-w600dp/config.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values/config.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/xml/ingredients_widget_info.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/io/github/josephx86/bakingtime/ExampleInstrumentedTest.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/MainActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/Recipe.java" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/Recipe.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/RecipeDetailsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/RecipeDetailsActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/RecipeStep.java" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/RecipeStep.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/StepsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/io/github/josephx86/bakingtime/StepsAdapter.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-w600dp/activity_recipe_details.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout-w600dp/activity_recipe_details.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_recipe_details.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_recipe_details.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_recipe_details.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_details_left.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_recipe_step_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_recipe_step_item.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-    </list>
+    <list default="true" id="0d39f7ee-fc99-45a3-8812-93fd3489919c" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
