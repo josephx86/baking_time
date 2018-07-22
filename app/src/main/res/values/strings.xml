@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Baking Time</string>
+    <string name="getting_recipes">Getting recipes… Please wait</string>
+    <!-- Changed url to use https (instead of http) so that volley will not throw exception on 300 HTTP response -->
+    <string name="recipes_repo">https://go.udacity.com/android-baking-app-json</string>
+    <string name="retry">Retry</string>
+    <string name="failed_to_download_recipes_message">Oops! Sorry, I broke something :s\n</string>
+    <string name="serving">Serving:&#032;</string>
+    <string name="recycler_view_state_key" translatable="false">recycler_view_state</string>
+    <string name="recipes_list_key" translatable="false">recipes_list</string>
+    <string name="recipe_parcelable_key" translatable="false">recipe</string>
+    <string name="title_key" translatable="false">activity_title</string>
+    <string name="step_number_key" translatable="false">step_number</string>
+    <string name="next_step">Next Step</string>
+    <string name="appwidget_text">Last viewed recipe ingredients will be shown here.</string>
+    <string name="add_widget">Add widget</string>
+    <string name="choose_recipe">Choose a recipe:</string>
+    <string name="loaded_from_backup">"Failed to get recipes online.\nRecipes have ben loaded from backup database."</string>
+</resources>
