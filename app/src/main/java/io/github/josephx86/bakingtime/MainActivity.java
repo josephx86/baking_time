@@ -1,11 +1,13 @@
 package io.github.josephx86.bakingtime;
 
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
     private final String TAG = "Baking Time";
     private Handler handler;
     private RecipeAdapter adapter;
+    public static int DISPLAY_FLAG;
 
     @BindView(R.id.wait_for_recipes_pb)
     ProgressBar waitProgressBar;
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         handler = new Handler(getMainLooper());
+
+
 
         // Setup recyclerview
         recipesRecyclerView.setLayoutManager(Utils.getLayoutManager(this));

@@ -52,6 +52,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.setName(r.getName());
         holder.setServingSize(r.getServings());
         holder.setId(r.getId());
+        holder.setImage(r.getImage());
     }
 
     @Override

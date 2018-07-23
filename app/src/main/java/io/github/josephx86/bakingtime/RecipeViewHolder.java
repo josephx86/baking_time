@@ -1,8 +1,12 @@
 package io.github.josephx86.bakingtime;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,9 +20,21 @@ class RecipeViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.serving_tv)
     TextView servingTextView;
 
-    public RecipeViewHolder(View itemView) {
+    @BindView(R.id.recipe_iv)
+    ImageView recipeImageView;
+
+    RecipeViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+    }
+
+    public void setImage(String url) {
+        Uri imageUri = Uri.parse(url);
+        Picasso.get()
+                .load(imageUri)
+                .error(R.drawable.food_96dp)
+                .placeholder(R.drawable.food_96dp)
+                .into(recipeImageView);
     }
 
     public void setName(String name) {

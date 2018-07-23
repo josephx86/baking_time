@@ -16,4 +16,9 @@
     <string name="add_widget">Add widget</string>
     <string name="choose_recipe">Choose a recipe:</string>
     <string name="loaded_from_backup">"Failed to get recipes online.\nRecipes have ben loaded from backup database."</string>
+    <string name="food_image">Food image</string>
+    <string name="buffering">Buffering…</string>
+    <string name="player_position_key" translatable="false">player_position</string>
+    <string name="player_window_key" translatable="false">player_window</string>
+    <string name="player_play_when_ready_key" translatable="false">player_play_when_ready</string>
 </resources>

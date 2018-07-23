@@ -25,23 +25,6 @@ public class StepsAdapter extends ArrayAdapter {
         }
     }
 
-    public RecipeStep getStepById(int id) {
-        if (recipeSteps == null) {
-            recipeSteps = new ArrayList<>();
-        }
-
-        // In the list that the Id came from, index 0 is ingredients, which isn't part of the list in this adapter.
-        // Offset by 1 to get correct step.
-        id--;
-
-        for (RecipeStep rs : recipeSteps) {
-            if (rs.getId() == id) {
-                return rs;
-            }
-        }
-        return null;
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

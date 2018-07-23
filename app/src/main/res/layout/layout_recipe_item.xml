@@ -18,7 +18,8 @@
             android:id="@+id/recipe_iv"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/food_96dp" />
+            android:contentDescription="@string/food_image"
+            tools:src="@drawable/food_96dp" />
 
         <View
             android:id="@+id/splitter_v"

@@ -2,24 +2,26 @@ package io.github.josephx86.bakingtime;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends PlayerActivity {
     private boolean twoPanes;
     private Recipe recipe = new Recipe();
     private InstructionsFragment fragment;
-    private int currentStep = 0;
+    private View lastSelectedItem;
 
     @BindView(R.id.steps_lv)
     ListView stepsListView;
@@ -33,9 +35,26 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         twoPanes = getResources().getBoolean(R.bool.two_panes);
 
         stepsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            private boolean firstTime = true;
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long rowId) {
-                currentStep = (int) rowId;
+                // Ignore if item clicked has details already shown.
+                if (rowId == currentStep) {
+                    if (!firstTime) {
+                        // First time this listener is called it by the app itself, not user selection.
+                        firstTime = false;
+                        return;
+                    }
+                }
+
+                // Reset player position & enable autoplay (default).
+                playerPosition = 0;
+                playerWindow = 0;
+                playWhenReady = true;
+
+                selectItem((int) rowId, view);
+
                 setStepData();
             }
         });
@@ -76,32 +95,44 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onResume() {
+        super.onResume();
+        if (twoPanes) {
+            addStepFragment();
 
-        // Recipe will be resubmitted with intent when activity is started.
-        // However, current step may change as user navigates through the steps.
-        // Save current step
-        String key = getString(R.string.step_number_key);
-        outState.putInt(key, currentStep);
-    }
+            setStepData();
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        String key = getString(R.string.step_number_key);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(key)) {
-                currentStep = savedInstanceState.getInt(key);
+            stepsListView.setSelection(0);
+
+            // highlight first item
+            ListAdapter adapter = stepsListView.getAdapter();
+            if (adapter != null) {
+                if (adapter.getCount() > currentStep) {
+                    View listItem = adapter.getView(currentStep, null, stepsListView);
+                    if (listItem != null) {
+                        stepsListView.performItemClick(listItem, currentStep, currentStep);
+
+                    }
+                }
             }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void selectItem(int index, View selectedView) {
+        currentStep = index;
 
-        addStepFragment();
+        // Select the item, deselect old one
+        Context context = stepsListView.getContext();
+        Drawable darkDrawable = ContextCompat.getDrawable(context, R.drawable.rect_dark);
+        Drawable lightDrawable = ContextCompat.getDrawable(context, R.drawable.rect);
+        if (lastSelectedItem != null) {
+            lastSelectedItem.setBackground(lightDrawable);
+        }
+
+        lastSelectedItem = selectedView;
+        if (selectedView != null) {
+            selectedView.setBackground(darkDrawable);
+        }
     }
 
     private void addStepFragment() {
@@ -118,18 +149,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Failed to load step!", Toast.LENGTH_LONG).show();
                 finish();
             }
-
-            setStepData();
-
         }
     }
 
     private void setStepData() {
         if (twoPanes) {
+            fragment.releasePlayer(false);
             if (currentStep == 0) {
                 fragment.setTitle("Ingredients");
-                fragment.setInstructionss(recipe.getIngredientsString());
-                fragment.setPlayerVisible(false, null);
+                fragment.setInstructionsa(recipe.getIngredientsString());
+                fragment.setPlayerVisible(false, null, null, 0, 0, false);
             } else {
                 boolean stepLoaded = false;
                 RecipeStep recipeStep = null;
@@ -143,10 +172,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
                     // Set video if available
                     String videoUrl = recipeStep.getVideoUrl();
+                    String thumbnailUrl = recipeStep.getThumbnail();
                     if (!videoUrl.isEmpty()) {
-                        fragment.setPlayerVisible(true, videoUrl);
+                        fragment.setPlayerVisible(true, videoUrl, thumbnailUrl, playerPosition, playerWindow, true);
                     } else {
-                        fragment.setPlayerVisible(false, null);
+                        fragment.setPlayerVisible(false, null, null, 0, 0, false);
                     }
 
                     // Set title and instructions
@@ -154,16 +184,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                     String title = recipeStep.getShortDescription();
                     if (title.equals(instructions)) {
                         fragment.setTitle(title);
-                        fragment.setInstructionss("");
+                        fragment.setInstructionsa("");
                     } else {
                         fragment.setTitle(title);
-                        fragment.setInstructionss(instructions);
+                        fragment.setInstructionsa(instructions);
                     }
                 } else {
                     Toast.makeText(this, "Failed to load step!", Toast.LENGTH_LONG).show();
                     finish();
                 }
             }
+            fragment.showNextButton(false);
         } else {
             // Start instructions activity
             Context context = RecipeDetailsActivity.this;

@@ -5,27 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class InstructionsActivity extends AppCompatActivity implements FragmentParent {
+public class InstructionsActivity extends PlayerActivity implements FragmentParent {
     private InstructionsFragment fragment;
     private Recipe recipe = new Recipe();
-    private int currentStep = 0;
-
-    @BindView(R.id.next_b)
-    Button nextButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructions);
-        ButterKnife.bind(this);
 
         // Get bundled data
         Bundle extras = getIntent().getExtras();
@@ -44,7 +33,6 @@ public class InstructionsActivity extends AppCompatActivity implements FragmentP
                 if (recipe == null) {
                     Toast.makeText(this, "Failed to load step!", Toast.LENGTH_LONG).show();
                     finish();
-                    return;
                 }
             }
         }
@@ -61,32 +49,10 @@ public class InstructionsActivity extends AppCompatActivity implements FragmentP
         // In landscape mode, video (in fragment) will be full screen
         // Hide the button and actionbar
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            nextButton.setVisibility(View.GONE);
+            //nextButton.setVisibility(View.GONE);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.hide();
-            }
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        // Recipe will be resubmitted with intent when activity is started.
-        // However, current step may change as user navigates through the steps.
-        // Save current step
-        String key = getString(R.string.step_number_key);
-        outState.putInt(key, currentStep);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        String key = getString(R.string.step_number_key);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(key)) {
-                currentStep = savedInstanceState.getInt(key);
             }
         }
     }
@@ -108,48 +74,55 @@ public class InstructionsActivity extends AppCompatActivity implements FragmentP
     }
 
     private void setStepData() {
-        if (currentStep == 0) {
-            fragment.setTitle("Ingredients");
-            fragment.setInstructionss(recipe.getIngredientsString());
-            fragment.setPlayerVisible(false, null);
-        } else {
-            boolean stepLoaded = false;
-            RecipeStep recipeStep = null;
-            if (currentStep < recipe.getSteps().size()) {
-                recipeStep = recipe.getSteps().get(currentStep);
-                if (recipeStep != null) {
-                    stepLoaded = true;
-                }
-            }
-            if (stepLoaded) {
+        if (fragment != null) {
 
-                // Set video if available
-                String videoUrl = recipeStep.getVideoUrl();
-                if (!videoUrl.isEmpty()) {
-                    fragment.setPlayerVisible(true, videoUrl);
-                } else {
-                    fragment.setPlayerVisible(false, null);
-                }
+            // If current step is last step, hide next button
+            int limit = recipe.getSteps().size() - 1;
+            fragment.showNextButton(currentStep < limit);
 
-                // Set title and instructions
-                String instructions = recipeStep.getDescription();
-                String title = recipeStep.getShortDescription();
-                if (title.equals(instructions)) {
-                    fragment.setTitle(title);
-                    fragment.setInstructionss("");
-                } else {
-                    fragment.setTitle(title);
-                    fragment.setInstructionss(instructions);
-                }
+            if (currentStep == 0) {
+                fragment.setTitle("Ingredients");
+                fragment.setInstructionsa(recipe.getIngredientsString());
+                fragment.setPlayerVisible(false, null, null, 0, 0, false);
             } else {
-                Toast.makeText(this, "Failed to load step!", Toast.LENGTH_LONG).show();
-                finish();
+                boolean stepLoaded = false;
+                RecipeStep recipeStep = null;
+                if (currentStep < recipe.getSteps().size()) {
+                    recipeStep = recipe.getSteps().get(currentStep);
+                    if (recipeStep != null) {
+                        stepLoaded = true;
+                    }
+                }
+                if (stepLoaded) {
+
+                    // Set video if available
+                    String videoUrl = recipeStep.getVideoUrl();
+                    String thumbnailUrl = recipeStep.getThumbnail();
+                    if (!videoUrl.isEmpty()) {
+                        fragment.setPlayerVisible(true, videoUrl, thumbnailUrl, playerPosition, playerWindow, playWhenReady);
+                    } else {
+                        fragment.setPlayerVisible(false, null, null, 0, 0, false);
+                    }
+
+                    // Set title and instructions
+                    String instructions = recipeStep.getDescription();
+                    String title = recipeStep.getShortDescription();
+                    if (title.equals(instructions)) {
+                        fragment.setTitle(title);
+                        fragment.setInstructionsa("");
+                    } else {
+                        fragment.setTitle(title);
+                        fragment.setInstructionsa(instructions);
+                    }
+                } else {
+                    Toast.makeText(this, "Failed to load step!", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             }
         }
 
         setTitle();
     }
-
 
     private void setTitle() {
         // First row is ingredients
@@ -164,14 +137,13 @@ public class InstructionsActivity extends AppCompatActivity implements FragmentP
         }
     }
 
-    public void nextStepButton_Click(View view) {
-        if (fragment != null) {
-            fragment.moveNext();
-        }
-    }
-
     @Override
     public void moveNext() {
+        // Reset player position & enable autoplay (default).
+        playerPosition = 0;
+        playerWindow = 0;
+        playWhenReady = true;
+
         // Move to next step by changing fragment
         currentStep++;
         InstructionsFragment nextFragment = new InstructionsFragment();
@@ -186,12 +158,5 @@ public class InstructionsActivity extends AppCompatActivity implements FragmentP
         fragment = nextFragment;
         setStepData();
 
-        // If current step is last step, hide next button
-        int limit = recipe.getSteps().size() - 1;
-        if (currentStep >= limit) {
-            nextButton.setVisibility(View.INVISIBLE);
-        } else {
-            nextButton.setVisibility(View.VISIBLE);
-        }
     }
 }
